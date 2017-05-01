@@ -15,7 +15,7 @@ public class ETDemo extends JApplet
 	private static final long serialVersionUID = 20081005L;
 	private static final int appWidth = 640;
 	private static final int appHeight = 480;
-	
+
 	private JTextPane mTextPane = new JTextPane();
 
     private RootPaneContainer mRPC;
@@ -31,7 +31,7 @@ public class ETDemo extends JApplet
     {
     	mRPC = frame;
     }
-	
+
 	public void init()
 	{
 		try
@@ -39,7 +39,7 @@ public class ETDemo extends JApplet
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e) {}
-		
+
 		// layout main content panel
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -47,7 +47,7 @@ public class ETDemo extends JApplet
 
 		mRPC.setContentPane(panel);
 		this.setSize(appWidth, appHeight);
-		
+
 		mTextPane.setFont(new Font("Verdana", java.awt.Font.PLAIN, 11));
 		StyledDocument styledDoc = mTextPane.getStyledDocument();
 		AbstractDocument doc = (AbstractDocument)styledDoc;
@@ -62,7 +62,7 @@ public class ETDemo extends JApplet
 			+ "\n"
 			+ "struct ipc_perm\n"
 			+ "{\n"
-			+ "\tkey_t\tkey;\n"
+			+ "\tkey_t\tkey; // This should get shifted to the end, but that is currently unimplemented\n"
 			+ "\tushort\tuid;\t/* owner euid and egid\t*/\n"
 			+ "\tushort\tgid;\t/* group id\t*/\n"
 			+ "\tushort\tcuid;\t/* creator euid and egid\t*/\n"
@@ -87,6 +87,23 @@ public class ETDemo extends JApplet
 			+ "\treturn numPrimes;\n"
 			+ "}\n"
 			+ "\n"
+			+ "int someOtherCode(\tint fred,\n"
+			+ "\t/* This comment expands the tab in the previous line */\tint wilma) {\n"
+			+ "\treturn someDemoCode(fred, wilma);\n"
+			+ "}\n"
+			+ "\n"
+			+ "class SomeClass {\n"
+			+ "\tint someClassCode(\tint fred,\n"
+			+ "\t\t/* This comment does too */\tint wilma) {\n"
+			+ "\t\treturn someOtherCode(fred, wilma);\n"
+			+ "\t}\n"
+			+ "\n"
+			+ "\tint someBrokenCode(\tint fred,\n"
+			+ "\t/* This comment break things that it shouldn't*/\t/* This comment does too */\tint wilma) {\n"
+			+ "\t\treturn someOtherCode(fred, wilma);\n"
+			+ "\t}\n"
+			+ "}\n"
+			+ "\n"
 			+ "---- and now for something completely different: a table ----\n"
 			+ "\n"
 			+ "Title\tAuthor\tPublisher\tYear\n"
@@ -95,10 +112,10 @@ public class ETDemo extends JApplet
 			+ "The Cyberiad\tStanislaw Lem\tHarcourt Publishers Ltd\t1985\n"
 			+ "The Selfish Gene\tRichard Dawkins\tOxford University Press\t2006\n"
 			+ "";
-		
+
 		mTextPane.setText(initialText);
 	}
-	
+
 	public static void main(String[] args)
 	{
 		JFrame frame = new JFrame();
